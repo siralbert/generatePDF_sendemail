@@ -4,6 +4,7 @@ import json
 import locale
 import sys
 
+import reports
 
 def load_data(filename):
   """Loads the contents of filename as a JSON file."""
@@ -54,13 +55,13 @@ def process_data(data):
   #changed summary to a dictionary
   most_popular_year = max(sales_by_car_year,key=sales_by_car_year.get)
   summary = {
-          "max_revenue":"The {} generated the most revenue: ${:.2f}".format(
+          "max_revenue":"The {} generated the most revenue: ${:,.2f}".format(
       format_car(max_revenue["car"]), max_revenue["revenue"]),
 
-      "most_sales":"The {} had the most sales: ${}".format(
+      "most_sales":"The {} had the most sales: {} vehicles".format(
       format_car(most_sales["car"]), most_sales["total_sales"]),
 
-      "most_popular_car_year":"Car Year {} was the most popular.".format(
+      "most_popular_car_year":"Car year {} was the most popular.".format(
       most_popular_year)
   }
 
@@ -82,7 +83,9 @@ def main(argv):
   print(summary["max_revenue"])
   print(summary["most_sales"])
   print(summary["most_popular_car_year"])
+
   # TODO: turn this into a PDF report
+  reports.generate("/tmp/cars.pdf","Car Sales","Summary<br />" + summary["max_revenue"] + '<br />' + summary["most_sales"] + '<br />' + summary["most_popular_car_year"], cars_dict_to_table(data))
 
   # TODO: send the PDF report as an email attachment
 
