@@ -48,13 +48,11 @@ def process_data(data):
       most_sales = item
 
     # most popular car_year
-#    if sales_by_car_year[item["car"]["car_year"]] 
     if item["car"]["car_year"] in sales_by_car_year:
         sales_by_car_year[item["car"]["car_year"]] = sales_by_car_year["car"]["car_year"] + item["total_sales"]
     else:
         sales_by_car_year[item["car"]["car_year"]] = item["total_sales"]
 
-  #changed summary to a dictionary
   most_popular_year = max(sales_by_car_year,key=sales_by_car_year.get)
   summary = {
           "max_revenue":"The {} generated the most revenue: ${:,.2f}".format(
@@ -86,12 +84,11 @@ def main(argv):
   print(summary["most_sales"])
   print(summary["most_popular_car_year"])
 
+# generate PDF report
   reports.generate("/tmp/cars.pdf","Car Sales","Summary:<br />" + summary["max_revenue"] + '<br />' + summary["most_sales"] + '<br />' + summary["most_popular_car_year"], cars_dict_to_table(data))
 
-  # TODO: send the PDF report as an email attachment
-#  emails.generate()
+# send report via email attachment
   message = emails.generate("automation@example.com","{}@example.com".format(os.environ.get('USER')),"Sales summary for last month","Summary:\n" + summary["max_revenue"] + '\n' + summary["most_sales"] + '\n' + summary["most_popular_car_year"],"/tmp/cars.pdf")
-#def generate(sender, recipient, subject, body, attachment_path):
   print(message)
   emails.send(message)
 
