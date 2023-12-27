@@ -84,8 +84,12 @@ def main(argv):
   print(summary["most_sales"])
   print(summary["most_popular_car_year"])
 
+# sort data according to sales from most to least
+  sorted_data = [["ID", "Car", "Price", "Total Sales"]]
+  sorted_data[1:] = sorted(cars_dict_to_table(data)[1:], key=lambda row: row[3], reverse=True)
+
 # generate PDF report
-  reports.generate("/tmp/cars.pdf","Car Sales","Summary:<br />" + summary["max_revenue"] + '<br />' + summary["most_sales"] + '<br />' + summary["most_popular_car_year"], cars_dict_to_table(data))
+  reports.generate("/tmp/cars.pdf","Car Sales","Summary:<br />" + summary["max_revenue"] + '<br />' + summary["most_sales"] + '<br />' + summary["most_popular_car_year"], sorted_data)
 
 # send report via email attachment
   message = emails.generate("automation@example.com","{}@example.com".format(os.environ.get('USER')),"Sales summary for last month","Summary:\n" + summary["max_revenue"] + '\n' + summary["most_sales"] + '\n' + summary["most_popular_car_year"],"/tmp/cars.pdf")
