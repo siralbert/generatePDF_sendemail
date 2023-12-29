@@ -41,11 +41,13 @@ def generate(filename, title, additional_info, table_data):
   report_piechart.labels = df.loc[:,'Car'].values.tolist()
 
   report_piechart.slices.strokeWidth=0.5
-  report_piechart.slices[3].popout = 10
-  report_piechart.slices[3].strokeWidth = 2
-  report_piechart.slices[3].strokeDashArray = [2,2]
-  report_piechart.slices[3].labelRadius = 1.75
-  report_piechart.slices[3].fontColor = colors.red
+
+  # FEATURE: Accentuate the slice representing vehicle with most sales
+#  report_piechart.slices[0].popout = 10
+#  report_piechart.slices[0].strokeWidth = 2
+#  report_piechart.slices[0].strokeDashArray = [2,2]
+#  report_piechart.slices[0].labelRadius = 1.75
+#  report_piechart.slices[0].fontColor = colors.red
 
   report_piechart.sideLabels = True
 
